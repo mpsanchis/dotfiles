@@ -17,3 +17,24 @@ jj/.config/jj/* -- corresponds to --> ~/.config/jj/*
 ```
 
 ## How to configure
+
+Run:
+```
+stow */
+```
+to symlink all dirs, or:
+
+```
+stow foo/
+```
+to symlink only one tool.
+
+## TODO
+
+Important tools missing:
+- tmux
+- zshrc
+- bashrc
+- git
+- karabiner
+- mise
