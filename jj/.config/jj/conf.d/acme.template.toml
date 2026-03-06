@@ -1,0 +1,8 @@
+# Template to manage author info based on directory
+# Example: John Doe working at acme.io
+
+--when.repositories = ["~/development/acme"]
+
+[user]
+name = "Doe, John"
+email = "john.doe@acme.io"

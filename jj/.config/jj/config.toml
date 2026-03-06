@@ -1,0 +1,17 @@
+[user]
+name = "mpsanchis"
+email = "33475618+mpsanchis@users.noreply.github.com"
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
+
+[ui]
+editor = "vi"
+default-command = ["status"]
+
+[aliases]
+# My commands will be added in ~/.config/jj/aliases/ and then a symlink lives in ~/.local/bin/ which is added to the PATH in .zshrc
+gpull =   ["util", "exec", "--", "jj-gpull"]
+gpush =   ["util", "exec", "--", "jj-gpush"]
+bc =      ["b", "c", "--to=@-"]
+bu =      ["b", "m", "--to=@-", "--allow-backwards"]

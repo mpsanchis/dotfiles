@@ -1,0 +1,6 @@
+# Repos managed centrally, which contain metadata about them
+repos/
+
+# Company-specific configuration
+conf.d/*
+!conf.d/acme.template.toml
