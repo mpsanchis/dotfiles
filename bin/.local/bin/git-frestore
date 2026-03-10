@@ -1,0 +1,6 @@
+#!/bin/sh
+
+FILE_TO_RESTORE=$1
+
+git restore --staged $FILE_TO_RESTORE
+git restore $FILE_TO_RESTORE
