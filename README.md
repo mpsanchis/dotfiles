@@ -32,7 +32,6 @@ to symlink only one tool.
 ## TODO
 
 Important tools missing:
-- zshrc
 - bashrc
 - git
 - karabiner
