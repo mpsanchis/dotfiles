@@ -36,6 +36,7 @@ export PROMPT='${CLI_COLOR_USR}%n ${CLI_COLOR_DIR}%~ ${CLI_COLOR_GIT}$(parse_git
 # Aliases
 alias k=kubectl
 alias nx="npx nx"
+alias tsc="npx tsc"
 
 # Keyboard
 ## Holding a key repeats its value, instead of opening a menu with options (such as adding accents). Might need to restart terminal to apply.
