@@ -1,0 +1,163 @@
+{
+    "title": "German mapping for programming (rev 3 - modified by Miguel: working version)",
+    "rules": [
+      {
+        "description": "myconfig.json Rule 1: Mapping éö àä to [{]}",
+        "manipulators": [
+          {
+            "from": {
+              "key_code": "semicolon",
+              "modifiers": {
+                "mandatory": ["shift"],
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "8",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          },
+          {
+            "from": {
+              "key_code": "quote",
+              "modifiers": {
+                "mandatory": ["shift"],
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "9",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          },
+          {
+            "from": {
+              "key_code": "semicolon",
+              "modifiers": {
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "5",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          },
+          {
+            "from": {
+              "key_code": "quote",
+              "modifiers": {
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "6",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          }
+        ]
+      },
+      {
+        "description": "myconfig.json Rule 2: Mapping èü to \\| (backslash escaped)",
+        "manipulators": [
+          {
+            "from": {
+              "key_code": "open_bracket"
+            },
+            "to": [
+              {
+                "key_code": "7",
+                "modifiers": ["left_option", "shift"]
+              }
+            ],
+            "type": "basic"
+          },
+          {
+            "from": {
+              "key_code": "open_bracket",
+              "modifiers": {
+                "optional": ["any"],
+                "mandatory": ["shift"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "7",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          }
+        ]
+      },
+      {
+        "description": "myconfig.json Rule 3: Mapping §° to ~@",
+        "manipulators": [
+          {
+            "from": {
+              "key_code": "non_us_backslash",
+              "modifiers": {
+                "mandatory": ["shift"],
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "g",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          },
+          {
+            "from": {
+              "key_code": "non_us_backslash",
+              "modifiers": {
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "n",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          }
+        ]
+      },
+      {
+        "description": "myconfig.json Rule 4: Mapping 4+shift to #",
+        "manipulators": [
+          {
+            "from": {
+              "key_code": "4",
+              "modifiers": {
+                "mandatory":["shift"],
+                "optional": ["any"]
+              }
+            },
+            "to": [
+              {
+                "key_code": "3",
+                "modifiers": ["left_option"]
+              }
+            ],
+            "type": "basic"
+          }
+        ]
+      }
+    ]
+  }
+  
