@@ -29,6 +29,12 @@ stow foo/
 ```
 to symlink only one tool.
 
+## Notes
+
+### On nvim
+
+In case I want to rebase, I keep `~/.config/nvim` as a separate repository. This can be simplified in the future, if I have my own custom nvim config, instead of a fork of kickstart.nvim. 
+
 ## TODO
 
 Important tools missing:
