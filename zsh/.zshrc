@@ -41,3 +41,8 @@ alias tsc="npx tsc"
 # Keyboard
 ## Holding a key repeats its value, instead of opening a menu with options (such as adding accents). Might need to restart terminal to apply.
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Keep at the end: start tmux
+if [ -z "$TMUX" ]; then
+  tmux attach || tmux new
+fi
