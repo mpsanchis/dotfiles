@@ -42,6 +42,15 @@ alias tsc="npx tsc"
 ## Holding a key repeats its value, instead of opening a menu with options (such as adding accents). Might need to restart terminal to apply.
 defaults write -g ApplePressAndHoldEnabled -bool false
 
+# FZF (fuzzy search)
+## Set up fzf key bindings and fuzzy completion
+### C-r: enhanced reverse command search
+### C-t: looks for files, and pastes their path when chosen
+### **: appending '**' to commands like vim, ssh, cd, ssh, kill, etc AND then tabbing allows to fuzzy-find files or directories
+source <(fzf --zsh)
+## Commands enhanced with fuzzy search
+alias cdf="cd \$(find * -type d | fzf)" # Might be easier than 'cd **<tab>'
+
 # Keep at the end: start tmux
 if [ -z "$TMUX" ]; then
   tmux attach || tmux new
