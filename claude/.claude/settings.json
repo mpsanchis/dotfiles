@@ -1,0 +1,10 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "sh /Users/mpsanchis/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  }
+}
