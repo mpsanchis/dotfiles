@@ -52,6 +52,6 @@ source <(fzf --zsh)
 alias cdf="cd \$(find * -type d | fzf)" # Might be easier than 'cd **<tab>'
 
 # Keep at the end: start tmux
-if [ -z "$TMUX" ]; then
-  tmux attach || tmux new
-fi
+# if [ -z "$TMUX" ]; then
+#   tmux attach || tmux new
+# fi
