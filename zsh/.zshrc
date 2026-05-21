@@ -1,6 +1,3 @@
-# DIRENV (https://direnv.net/)
-eval "$(direnv hook zsh)"
-
 # MISE (software manager)
 eval "$(/opt/homebrew/bin/mise activate zsh)"
 
@@ -20,9 +17,26 @@ export XDG_CONFIG_HOME=$HOME/.config
 export PATH=$PATH:/Applications/IntelliJ\ IDEA.app/Contents/MacOS
 
 # CONFIGURE THE CLI
-## Get git branch
-function parse_git_branch() {
-    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+## Get VCS pointer (jj or git)
+function get_vcs_pointer() {
+    if [[ -d .jj ]]; then
+        local jj_id
+        jj_id=$(jj log -r @ --no-graph --ignore-working-copy --template 'change_id.short()' 2>/dev/null) || jj_id="err"
+        echo "jj [$jj_id]"
+        return
+    fi
+
+    local ref
+    ref=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [[ -n "$ref" && "$ref" != "HEAD" ]]; then
+        echo "git [$ref]"
+        return
+    elif [[ "$ref" == "HEAD" ]]; then
+        echo "git [$(git rev-parse --short HEAD 2>/dev/null)]"
+        return
+    fi
+
+    echo "[no_vcs]"
 }
 ## Enable colors
 CLI_COLOR_DEF=$'%f'
@@ -31,7 +45,7 @@ CLI_COLOR_DIR=$'%F{yellow}'
 CLI_COLOR_GIT=$'%F{39}'
 CLI_NEWLINE_CHARACTER=$'\n'
 setopt PROMPT_SUBST
-export PROMPT='${CLI_COLOR_USR}%n ${CLI_COLOR_DIR}%~ ${CLI_COLOR_GIT}$(parse_git_branch)${CLI_COLOR_DEF}${CLI_NEWLINE_CHARACTER}$ '
+export PROMPT='${CLI_COLOR_USR}%n ${CLI_COLOR_DIR}%~ ${CLI_COLOR_GIT}$(get_vcs_pointer)${CLI_COLOR_DEF}${CLI_NEWLINE_CHARACTER}$ '
 
 # Aliases
 alias k=kubectl
