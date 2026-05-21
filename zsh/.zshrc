@@ -50,6 +50,7 @@ export PROMPT='${CLI_COLOR_USR}%n ${CLI_COLOR_DIR}%~ ${CLI_COLOR_GIT}$(get_vcs_p
 # Aliases
 alias k=kubectl
 alias nx="npx nx"
+alias forge="npx forge"
 alias tsc="npx tsc"
 
 # Keyboard
