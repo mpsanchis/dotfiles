@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
+import sys
 
 def run(cmd, capture=False):
     """
@@ -22,6 +23,18 @@ def bookmark_exists(name):
 
 
 def main():
+    # Pre-check: is jj in this repo?
+    res = subprocess.run(
+        "jj root --ignore-working-copy",
+        shell=True,
+        capture_output=True,
+        text=True
+    )
+    if res.returncode != 0:
+        err = res.stderr.strip() if res.stderr else 'Error: There is no jj repo in "."'
+        print(err, file=sys.stderr)
+        sys.exit(1)
+
     needs_main = bookmark_exists("main")
     needs_master = bookmark_exists("master")
 
