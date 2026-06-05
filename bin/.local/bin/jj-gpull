@@ -3,18 +3,60 @@
 import subprocess
 import sys
 
+def is_workspace_stale():
+    """Check if the jj working copy is stale."""
+    try:
+        subprocess.run(
+            "jj status", shell=True, capture_output=True, text=True, check=True
+        )
+        return False
+    except subprocess.CalledProcessError as e:
+        err_msg = (e.stderr or "") + (e.stdout or "")
+        return "stale" in err_msg.lower() and "update-stale" in err_msg.lower()
+
+
 def run(cmd, capture=False):
     """
     Run a shell command.
     If capture=True, return stdout as a string.
     Otherwise, just execute it.
+    If it fails due to a stale working copy, run `jj workspace update-stale` and try again.
     """
-    if capture:
-        return subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, check=True
-        ).stdout.strip()
-    else:
-        subprocess.run(cmd, shell=True, check=True)
+    try:
+        if capture:
+            return subprocess.run(
+                cmd, shell=True, capture_output=True, text=True, check=True
+            ).stdout.strip()
+        else:
+            subprocess.run(cmd, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        # Check if the failure is due to a stale working copy
+        is_stale = False
+        if capture:
+            err_msg = (e.stderr or "") + (e.stdout or "")
+            if "stale" in err_msg.lower() and "update-stale" in err_msg.lower():
+                is_stale = True
+        else:
+            if is_workspace_stale():
+                is_stale = True
+
+        if is_stale:
+            print("Working copy is stale. Running `jj workspace update-stale`...", file=sys.stderr)
+            try:
+                subprocess.run("jj workspace update-stale", shell=True, check=True)
+            except subprocess.CalledProcessError as update_err:
+                print("Failed to update stale working copy.", file=sys.stderr)
+                raise e  # Raise the original error
+            
+            # Try again
+            if capture:
+                return subprocess.run(
+                    cmd, shell=True, capture_output=True, text=True, check=True
+                ).stdout.strip()
+            else:
+                subprocess.run(cmd, shell=True, check=True)
+        else:
+            raise e
 
 
 def bookmark_exists(name):
