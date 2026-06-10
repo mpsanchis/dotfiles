@@ -1,87 +1,20 @@
 #!/usr/bin/env python3
 
-import subprocess
 import sys
-
-def is_workspace_stale():
-    """Check if the jj working copy is stale."""
-    try:
-        subprocess.run(
-            "jj status", shell=True, capture_output=True, text=True, check=True
-        )
-        return False
-    except subprocess.CalledProcessError as e:
-        err_msg = (e.stderr or "") + (e.stdout or "")
-        return "stale" in err_msg.lower() and "update-stale" in err_msg.lower()
-
-
-def run(cmd, capture=False):
-    """
-    Run a shell command.
-    If capture=True, return stdout as a string.
-    Otherwise, just execute it.
-    If it fails due to a stale working copy, run `jj workspace update-stale` and try again.
-    """
-    try:
-        if capture:
-            return subprocess.run(
-                cmd, shell=True, capture_output=True, text=True, check=True
-            ).stdout.strip()
-        else:
-            subprocess.run(cmd, shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        # Check if the failure is due to a stale working copy
-        is_stale = False
-        if capture:
-            err_msg = (e.stderr or "") + (e.stdout or "")
-            if "stale" in err_msg.lower() and "update-stale" in err_msg.lower():
-                is_stale = True
-        else:
-            if is_workspace_stale():
-                is_stale = True
-
-        if is_stale:
-            print("Working copy is stale. Running `jj workspace update-stale`...", file=sys.stderr)
-            try:
-                subprocess.run("jj workspace update-stale", shell=True, check=True)
-            except subprocess.CalledProcessError as update_err:
-                print("Failed to update stale working copy.", file=sys.stderr)
-                raise e  # Raise the original error
-            
-            # Try again
-            if capture:
-                return subprocess.run(
-                    cmd, shell=True, capture_output=True, text=True, check=True
-                ).stdout.strip()
-            else:
-                subprocess.run(cmd, shell=True, check=True)
-        else:
-            raise e
-
-
-def bookmark_exists(name):
-    """Return True if `jj b l <name>` returns non-empty."""
-    return bool(run(f"jj b l {name}", capture=True))
+import os
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+from jj_utils import run, assert_jj_repo, bookmark_exists
 
 
 def main():
     # Pre-check: is jj in this repo?
-    res = subprocess.run(
-        "jj root --ignore-working-copy",
-        shell=True,
-        capture_output=True,
-        text=True
-    )
-    if res.returncode != 0:
-        err = res.stderr.strip() if res.stderr else 'Error: There is no jj repo in "."'
-        print(err, file=sys.stderr)
-        sys.exit(1)
+    assert_jj_repo()
 
     needs_main = bookmark_exists("main")
     needs_master = bookmark_exists("master")
 
     if needs_main or needs_master:
-        run("jj git fetch")   # fetch once
+        run("jj git fetch")  # fetch once
 
     if needs_main:
         run("jj b m main --to=main@origin")
@@ -92,4 +25,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
