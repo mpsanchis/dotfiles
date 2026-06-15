@@ -26,13 +26,14 @@ function get_vcs_pointer() {
         return
     fi
 
-    local ref
-    ref=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [[ -n "$ref" && "$ref" != "HEAD" ]]; then
-        echo "git [$ref]"
-        return
-    elif [[ "$ref" == "HEAD" ]]; then
-        echo "git [$(git rev-parse --short HEAD 2>/dev/null)]"
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        local ref
+        ref=$(git branch --show-current 2>/dev/null)
+        if [[ -n "$ref" ]]; then
+            echo "git [$ref]"
+        else
+            echo "git [$(git rev-parse --short HEAD 2>/dev/null)]"
+        fi
         return
     fi
 
