@@ -50,9 +50,9 @@ export PROMPT='${CLI_COLOR_USR}%n ${CLI_COLOR_DIR}%~ ${CLI_COLOR_GIT}$(get_vcs_p
 
 # Aliases
 alias k=kubectl
-alias nx="npx nx"
-alias forge="npx forge"
-alias tsc="npx tsc"
+alias nx="pnpm exec nx"
+alias forge="pnpm exec forge"
+alias tsc="pnpm exec tsc"
 
 # Keyboard
 ## Holding a key repeats its value, instead of opening a menu with options (such as adding accents). Might need to restart terminal to apply.
