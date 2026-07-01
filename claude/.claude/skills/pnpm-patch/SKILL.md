@@ -36,10 +36,10 @@ Once you know what it does and you can modify it later, you can proceed by delet
 2. Remove patch from pnpm-workspace.yaml and package.json at root
 3. Remove patch from patches/ dir at root
 
-For ALL file and directory removals above, call `bash ~/.dotfiles/claude/.claude/skills/pnpm-patch/delete.sh <path>` — do not use any other method to delete files or directories.
+For ALL file and directory removals above, call `bash ~/.dotfiles/claude/.claude/skills/utils/delete.sh <path>` — do not use any other method to delete files or directories.
 
 Then re-create the `node_modules` and `pnpm-lock` without the patch by:
-- `bash ~/.dotfiles/claude/.claude/skills/pnpm-patch/delete.sh pnpm-lock.yaml`
+- `bash ~/.dotfiles/claude/.claude/skills/utils/delete.sh pnpm-lock.yaml`
 - `pnpm i`
 
 And now you can attempt `pnpm patch <dependency>` again.
