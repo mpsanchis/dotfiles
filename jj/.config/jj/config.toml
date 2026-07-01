@@ -9,6 +9,9 @@ auto-track-bookmarks = "glob:*"
 editor = "vi"
 default-command = ["status"]
 
+[revsets]
+log = "::@" # default to show only ancestors of HEAD (@) when 'jj log'. Run 'jj log -r "all()"' for all
+
 [aliases]
 # My commands will be added in ~/.config/jj/aliases/ and then a symlink lives in ~/.local/bin/ which is added to the PATH in .zshrc
 gpull =   ["util", "exec", "--", "jj-gpull"]
