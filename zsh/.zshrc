@@ -4,6 +4,9 @@ eval "$(/opt/homebrew/bin/mise activate zsh)"
 # ZED IDE (and other binaries installed manually)
 export PATH=$HOME/.local/bin:$PATH
 
+# Used by CLIs (currently codex/claude) to pick a file editor
+export VISUAL=nvim
+
 # homebrew
 # export HOMEBREW_PREFIX=/opt/homebrew
 ## Make homebrew-installed libraries available by default
