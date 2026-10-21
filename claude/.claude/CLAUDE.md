@@ -7,4 +7,4 @@ Read-only commands (log, branch --list, diff, etc.) are OK to use.
 
 # Avoid removing files or directories with rm
 
-Instead, use `bash ~/.claude/skills/utils/delete.sh <path>`
+Instead, use `bash ~/.claude/scripts/delete.sh <path>`
