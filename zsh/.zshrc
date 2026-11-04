@@ -57,6 +57,9 @@ alias nx="pnpm exec nx"
 alias forge="pnpm exec forge"
 alias tsc="pnpm exec tsc"
 
+# Claude Code settings (managed in ~/.dotfiles/claude)
+[[ -f ~/.claude/shell-env.zsh ]] && source ~/.claude/shell-env.zsh
+
 # Keyboard
 ## Holding a key repeats its value, instead of opening a menu with options (such as adding accents). Might need to restart terminal to apply.
 defaults write -g ApplePressAndHoldEnabled -bool false
