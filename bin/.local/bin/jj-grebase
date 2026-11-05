@@ -3,10 +3,13 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
-from jj_utils import run, get_single_bookmark_at_parent, detect_main_branch
+from jj_utils import run, assert_jj_repo, get_single_bookmark_at_parent, detect_main_branch
 
 
 def main():
+    # Pre-check: is jj in this repo?
+    assert_jj_repo()
+
     # Step 1: Get the single bookmark from the parent commit
     bookmark = get_single_bookmark_at_parent(action="rebase")
 
