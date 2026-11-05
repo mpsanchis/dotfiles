@@ -3,3 +3,5 @@ __pycache__/
 claude/.claude/skills/jira/
 claude/.claude/skills/synced/
 claude/.claude/skills/.trash/
+# Safety net: machine/company-specific git config lives in ~/.config/git/config.local, never here
+git/.config/git/config.local

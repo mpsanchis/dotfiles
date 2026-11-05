@@ -1,0 +1,19 @@
+[user]
+	name = mpsanchis
+	email = 33475618+mpsanchis@users.noreply.github.com
+[credential]
+	helper = osxkeychain
+[core]
+	# No editor here: git uses $VISUAL/$EDITOR (nvim, see .zshrc)
+	pager = "less -F -X"
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[push]
+	autoSetupRemote = true
+# Machine/company-specific config (e.g. other identities per directory), not in this repo.
+# Git skips this include if the file doesn't exist.
+[include]
+	path = ~/.config/git/config.local
