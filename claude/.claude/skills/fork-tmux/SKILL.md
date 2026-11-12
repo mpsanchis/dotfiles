@@ -1,6 +1,6 @@
 ---
 name: fork-tmux
-description: Create a jj workspace and resume a fork of this Claude session in a new tmux session.
+description: Resume a fork of this Claude session in a new tmux session, in a new jj workspace or git worktree (or the current directory outside a repo).
 argument-hint: <name> [switch]
 disable-model-invocation: true
 allowed-tools:

@@ -22,14 +22,27 @@ fi
 cwd="$(pwd -P)"
 base="$(basename "$cwd")"
 
-# <parent>/<base>-worktrees/<name>, outside the repo so it isn't snapshotted.
-workspace_path="$(dirname "$cwd")/${base}-worktrees/${name}"
 # tmux session names can't contain '.' or ':'.
 tmux_session="$(echo "${base}-${name}" | tr '.:' '--')"
 
-if [[ -e "$workspace_path" ]]; then
-  echo "Error: workspace path already exists: $workspace_path" >&2
-  exit 1
+if jj root >/dev/null 2>&1; then
+  vcs=jj
+elif git rev-parse --show-toplevel >/dev/null 2>&1; then
+  vcs=git
+else
+  vcs=none
+fi
+
+if [[ "$vcs" == none ]]; then
+  # No VCS: nothing to isolate, so the fork runs in the current directory.
+  workspace_path="$cwd"
+else
+  # <parent>/<base>-worktrees/<name>, outside the repo so it isn't snapshotted.
+  workspace_path="$(dirname "$cwd")/${base}-worktrees/${name}"
+  if [[ -e "$workspace_path" ]]; then
+    echo "Error: workspace path already exists: $workspace_path" >&2
+    exit 1
+  fi
 fi
 
 if tmux has-session -t "=$tmux_session" 2>/dev/null; then
@@ -37,21 +50,18 @@ if tmux has-session -t "=$tmux_session" 2>/dev/null; then
   exit 1
 fi
 
-mkdir -p "$(dirname "$workspace_path")"
-
-if jj root >/dev/null 2>&1; then
-  # Default base is the parent(s) of the current working-copy commit, so
-  # uncommitted changes in @ are not carried over. Add `-r @` to include them.
-  jj workspace add --name "$name" "$workspace_path" >&2
-  vcs=jj
-elif git rev-parse --show-toplevel >/dev/null 2>&1; then
-  git worktree add -b "$name" "$workspace_path" >&2
-  vcs=git
-else
-  # No VCS: just an empty directory to resume the session in.
-  mkdir "$workspace_path"
-  vcs=none
-fi
+case "$vcs" in
+  jj)
+    mkdir -p "$(dirname "$workspace_path")"
+    # Default base is the parent(s) of the current working-copy commit, so
+    # uncommitted changes in @ are not carried over. Add `-r @` to include them.
+    jj workspace add --name "$name" "$workspace_path" >&2
+    ;;
+  git)
+    mkdir -p "$(dirname "$workspace_path")"
+    git worktree add -b "$name" "$workspace_path" >&2
+    ;;
+esac
 
 # Pre-generate the child ID so we can report it back to the parent.
 child_id="$(uuidgen | tr 'A-Z' 'a-z')"
